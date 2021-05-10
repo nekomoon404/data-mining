@@ -91,3 +91,40 @@ ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
 ```
 
 时间复杂度： $O(n)$，遍历一次 `l1` 和 `l2` ；空间复杂度： $O(1)$
+
+## 05-10
+### lc.160 两个链表的第一个公共节点
+
+[力扣](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+
+输入两个链表，找出它们的第一个公共节点。如下面的两个链表**：**
+
+<div align=center>
+<img src=https://github.com/nekomoon404/data-mining/blob/master/Datawhale%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210510184955.png width=50% />
+</div>
+
+【思路】
+
+解法比较巧妙，让两个指针 `p` 和 `q` 分别指向链表A和B的头节点，两个指针同时向后移，若 `p` 到达链表A的尾部空节点，就让它指向链表B的头节点； `q` 同理。这样若交点存在，当两个指针走过的距离是 ”a + b + c"时，它们一定会在交点相遇；当交点不存在时，两个指针走过距离“a + b" 时，都会指向空节点，即相等，跳出循环，返回 `p` 即返回空节点。
+
+<div align=center>
+<img src=https://github.com/nekomoon404/data-mining/blob/master/Datawhale%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210510190043.jpg width=40% />
+</div>
+
+```cpp
+ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+    ListNode* p = headA;
+    ListNode* q = headB;
+
+    while(p != q) {
+        if(p) p = p->next;
+        else p = headB;
+
+        if(q) q = q->next;
+        else q = headA;
+    }
+
+    return p;
+}
+```
+时间复杂度： $O(n)$，遍历一次链表1和链表2 ；空间复杂度： $O(1)$

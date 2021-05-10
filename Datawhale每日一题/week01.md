@@ -38,6 +38,10 @@ ListNode* reverseList(ListNode* head) {
 
 时间复杂度： $O(n)$，空间复杂度： $O(1)$
 
+### 面经每日一题：基于redis的分布式锁是如何实现的？
+
+
+
 ## 05-09
 ### lc. 21 合并两个有序链表
 
@@ -92,7 +96,7 @@ ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
 
 时间复杂度： $O(n)$，遍历一次 `l1` 和 `l2` ；空间复杂度： $O(1)$
 
-面经每日一题：
+### 面经每日一题：页面置换算法有哪些？
 
 [页面置换算法有哪些？](https://github.com/nekomoon404/data-mining/blob/master/Datawhale%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/%E9%9D%A2%E7%BB%8F%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/2.%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B.md)
 
@@ -132,3 +136,5 @@ ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
 }
 ```
 时间复杂度： $O(n)$，遍历一次链表1和链表2 ；空间复杂度： $O(1)$
+
+### 面经每日一题：MySQL的引擎了解嘛？默认的是哪个？Innodb和Myisam的区别？

@@ -138,3 +138,39 @@ ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
 时间复杂度： $O(n)$，遍历一次链表1和链表2 ；空间复杂度： $O(1)$
 
 ### 面经每日一题：MySQL的引擎了解嘛？默认的是哪个？Innodb和Myisam的区别？
+
+## 05-11
+### lc.141 环形链表
+
+[力扣](https://leetcode-cn.com/problems/linked-list-cycle/)
+
+给定一个链表，判断链表中是否有环。
+
+【思路】
+
+快慢指针，慢指针 `slow` 指向头节点 `head` ，每次向后移动一位；快指针 `fast` 指向头节点，每次向后移动两位；若链表中有环存在，则快慢指针一定会相遇；若链表中无环存在，则快指针会离慢指针越来越远，直到走到尾部的空节点。
+
+（有些题解是让快指针起始指向 `head->next` ，其实当有环存在时，快指针无论一开始指向哪里，快慢指针总能相遇。）
+
+```cpp
+bool hasCycle(ListNode *head) {
+    ListNode* fast = head;
+    ListNode* slow = head;
+
+    while(fast && fast->next) {
+        fast = fast->next->next;
+        slow = slow->next;
+        if(fast == slow)
+            return true;
+    }
+
+    return false;
+}
+```
+
+时间复杂度：$O(n)$，当慢指针达到环的入口时，快指针一定进入了环内，沿着环顺时针看，相当于快指针要“追”慢指针，快慢指针每移动一次，慢指针就会被追上一位，两者距离减一；
+
+空间复杂度：$O(1)$
+
+>进一步地，为什么快指针每次要走两步，每次走3步、4步可不可以？
+>可以参考：[为什么用快慢指针检测链表是否有环的时候，快指针的步长选择的是2，而不是3，4，5？](https://blog.csdn.net/xgjonathan/article/details/18034825))

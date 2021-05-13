@@ -168,11 +168,79 @@ bool hasCycle(ListNode *head) {
 }
 ```
 
-时间复杂度：$O(n)$，当慢指针达到环的入口时，快指针一定进入了环内，沿着环顺时针看，相当于快指针要“追”慢指针，快慢指针每移动一次，慢指针就会被追上一位，两者距离减一；
+时间复杂度：$O(n)$ ；空间复杂度：$O(1)$
 
-空间复杂度：$O(1)$
+【为什么快慢指针一定可以相遇？快指针的步长为什么要为2？步长为3、4行不行？】
 
->进一步地，为什么快指针每次要走两步，每次走3步、4步可不可以？
->可以参考：[为什么用快慢指针检测链表是否有环的时候，快指针的步长选择的是2，而不是3，4，5？](https://blog.csdn.net/xgjonathan/article/details/18034825))
+如下图，假设头节点到环入口距离是x，环入口到快慢指针第一次相遇点的距离是y，相遇点到环入口距离是z。
+
+<div  align="center">  
+<img src="https://gitee.com/nekomoon404/blog-img/raw/master/img/微信图片_20210513100302.png" width=50% />
+</div>
+
+设头节点的下标是0，每次移动1位（步长为1）的慢指针走了 $j$ 步，到了位置 `j` ， **$j$ 是 环的长度 y + z 的整数倍中满足 $j > x$ 的最小的那个数**；快指针每次移动 k 位（步长为k, k≥2）， 因此快指针此时已走过 $k * j$步，可以理解为快指针先走到位置 `j` ，又在环中走了 $(k-1) * j$步，因此 $j$ 是环长度的整数倍，所以快指针最终又走到了位置 `j` ，快慢指针相遇。
+
+**可见，快指针的步长大于等于2时，都是可以和慢指针相遇的。**
+
+时间复杂度可以看慢指针走过的步数 $j$，设链表中的节点个数为n。因为$j$是环的长度 y + z 的整数倍中满足 $j > x$ 的最小的那个数：
+
+- 若x ≤ 环长，则 $j = y + z < n$;
+- 若x > 环长，则 $j < 2 * x < 2 * n$
+
+所以时间复杂度为 $O(n)$。
+
+>参考：[为什么用快慢指针检测链表是否有环的时候，快指针的步长选择的是2，而不是3，4，5？](https://blog.csdn.net/xgjonathan/article/details/18034825))
 
 ### 面经每日一题：线性池了解吗？参数有哪些？任务到达线程池的过程？线程池的大小如何设置？
+
+## 05-12
+### lc.142 环形链表 II Linked List Cycle ii
+
+[力扣](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+
+在判断链表中是否有环的基础上，还要找链表中的环的入口。
+
+【判断链表是否有环】一个快指针每次走两步，一个慢指针每次走一步，两个指针都从头节点出发，若链表中有环，则它们必会在环内相遇。若遍历到 `fast == NULL || fast→next == NULL`时还没有相遇，说明链表中无环。
+
+【如何找到环的入口】
+
+如下图，假设头节点到环入口距离是x，环入口到快慢指针第一次相遇点的距离是y，相遇点到环入口距离是z。从快慢指针出发到它们第一次相遇：
+
+<div  align="center">  
+<img src="https://gitee.com/nekomoon404/blog-img/raw/master/img/微信图片_20210513100302.png" width=50% />
+</div>
+
+- 慢指针走过： `x + y` ；
+- 快指针一定已经在环中了，它走过： `x + (y + z) * n + y` ；
+
+又因为快指针走过的距离是慢指针走过的两倍： `x + (y + z) * n + y = 2 * (x + y)` ，移项得： `x = (y + z) * (n - 1) + z` 。
+
+要找环的入口就是要知道x的大小，上面的式子表面，让一个指针（如原来的慢指针）从头节点开始走，一个指针从相遇点开始走，两个指针每次走一步，它们走过相同的距离时，即相遇时就在环的入口。
+
+```cpp
+ListNode *detectCycle(ListNode *head) {
+    if(!head || !head->next)  return NULL;
+    
+    ListNode* fast = head;
+    ListNode* slow = head;
+
+    while(fast && fast->next) {
+        fast = fast->next->next;
+        slow = slow->next;
+        if(fast == slow) {
+            slow = head;
+            while(slow != fast) {
+                slow = slow->next;
+                fast = fast->next;
+            }
+            return slow;
+        }
+    }
+
+    return NULL;
+}
+```
+
+时间复杂度： $O(n)$；空间复杂度： $O(1)$
+
+### 面经每日一题：介绍MVCC

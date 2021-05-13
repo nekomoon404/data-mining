@@ -288,5 +288,9 @@ vector<int> searchRange(vector<int>& nums, int target) {
 时间复杂度：$O(\log n)$；空间复杂度：$O(1)$
 
 >可以参考之前写的二分板子：[二分查找](https://nekomoon404.github.io/2020/09/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%EF%BC%881%EF%BC%89/)
+<div  align="center">  
+<img src="https://gitee.com/nekomoon404/blog-img/raw/master/img/QQ图片20201003230519.jpg" width=70% />
+</div>
+
 
 ### 面经每日一题：Java乐观锁机制，CAS思想？缺点？是否有原子性？

@@ -244,3 +244,49 @@ ListNode *detectCycle(ListNode *head) {
 时间复杂度： $O(n)$；空间复杂度： $O(1)$
 
 ### 面经每日一题：介绍MVCC
+
+
+## 05-13
+### lc.34 在排序数组中查找元素的第一个和最后一个位置
+
+[力扣](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+
+一个升序的有序数组，有重复元素，给定一个target，求target在数组中的起始和结束位置，若不存在就返回 `{-1, -1}` 
+
+这道题考察的主要是如何去写二分查找的 `check(nums[mid])` 函数，如何判断条件去找左右端点。
+
+<div  align="center">  
+<img src="https://gitee.com/nekomoon404/blog-img/raw/master/img/微信图片_20210513205824.png" width=80% />
+</div>
+
+
+
+```cpp
+vector<int> searchRange(vector<int>& nums, int target) {
+    if(nums.empty())  return {-1, -1};
+    int l = 0, r = nums.size() - 1;
+    while(l < r) {
+        int mid = l + r >> 1;
+        if(nums[mid] >= target)  r = mid;
+        else l = mid + 1;
+    }
+
+    int left;
+    if(nums[r] == target)  left = r, l = r, r = nums.size() - 1;
+    else return {-1, -1};
+
+    while(l < r) {
+        int mid = l + r + 1 >> 1;
+        if(nums[mid] <= target)  l = mid;
+        else r = mid - 1; 
+    }
+
+    return {left, l};
+}
+```
+
+时间复杂度：$O(\log n)$；空间复杂度：$O(1)$
+
+>可以参考之前写的二分板子：[二分查找](https://nekomoon404.github.io/2020/09/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80%EF%BC%881%EF%BC%89/)
+
+### 面经每日一题：Java乐观锁机制，CAS思想？缺点？是否有原子性？

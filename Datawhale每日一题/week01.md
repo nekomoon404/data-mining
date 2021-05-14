@@ -294,3 +294,42 @@ vector<int> searchRange(vector<int>& nums, int target) {
 
 
 ### 面经每日一题：Java乐观锁机制，CAS思想？缺点？是否有原子性？
+
+## 05-14
+### lc.1 两数之和
+给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 的那 两个 整数，并返回它们的数组下标。
+
+你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。你可以按任意顺序返回答案。
+
+提示：
+* `2 <= nums.length <= 10^3`
+* `-10^9 <= nums[i] <= 10^9`
+* `-10^9 <= target <= 10^9`
+* 只会存在一个有效答案
+
+暴力解法是两层for循环，时间复杂度为$O(n)$。一次遍历是在所难免的，所以关键是怎么去优化第二层遍历，即已知数`nums[i]`，怎么快速地找到是否有`target - nums[i]`。
+使用哈希法是合适的，这道题要求我们返回元素的下标，且可以无序，因此选择用`unordered_map`是效率高的，它查找的时间复杂度是$O(1)$。
+```c++
+vector<int> twoSum(vector<int>& nums, int target) {
+    unordered_map<int, int> map;
+    for(int i = 0; i < nums.size(); i ++) {
+        auto iter = map.find(target - nums[i]);
+        if(iter != map.end()) {
+            return {iter->second, i};
+        }
+        map.insert({nums[i], i});
+    }
+    return {};
+}
+```
+时间复杂度：$O(n)$；空间复杂度：$O(n)$。
+
+C++中几种map的比较：
+
+|映射|底层实现|是否有序|数值是否可以重复|能否更改数值|查询效率|增删效率|
+|----|----|----|----|----|----|----|
+|std::map|红黑树|key有序|key不可重复|key不可修改|$O(\log n)$|$O(\log n)$|
+|std::multimap|红黑树|key有序|key可重复|key不可修改|$O(\log n)$|$O(\log n)$|
+|std::unordered_map|哈希表|key无序|key不可重复|key不可修改|$O(1)$|$O(1)$|
+
+### 面经每日一题：ReenTrantLock使用方法？底层实现？和synchronized区别？

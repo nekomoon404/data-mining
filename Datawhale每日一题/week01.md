@@ -338,7 +338,7 @@ C++中几种map的比较：
 ### 面经每日一题：ReenTrantLock使用方法？底层实现？和synchronized区别？
 
 ## 05-15
-### LC206 反转链表
+### lc.206 反转链表
 
 [力扣](https://leetcode-cn.com/problems/reverse-linked-list/)
 

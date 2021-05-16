@@ -309,7 +309,7 @@ vector<int> searchRange(vector<int>& nums, int target) {
 * `-10^9 <= target <= 10^9`
 * 只会存在一个有效答案
 
-暴力解法是两层for循环，时间复杂度为$O(n)$。一次遍历是在所难免的，所以关键是怎么去优化第二层遍历，即已知数`nums[i]`，怎么快速地找到是否有`target - nums[i]`。
+暴力解法是两层for循环，时间复杂度为$O(n^2)$。一次遍历是在所难免的，所以关键是怎么去优化第二层遍历，即已知数`nums[i]`，怎么快速地找到是否有`target - nums[i]`。
 
 使用哈希法是合适的，这道题要求我们返回元素的下标，且可以无序，因此选择用`unordered_map`是效率高的，它查找的时间复杂度是$O(1)$。
 ```c++
@@ -338,7 +338,7 @@ C++中几种map的比较：
 ### 面经每日一题：ReenTrantLock使用方法？底层实现？和synchronized区别？
 
 ## 05-15
-### LC206 反转链表
+### lc.206 反转链表
 
 [力扣](https://leetcode-cn.com/problems/reverse-linked-list/)
 
@@ -374,3 +374,4 @@ ListNode* reverseList(ListNode* head) {
 时间复杂度： $O(n)$，空间复杂度： $O(1)$
 
 ### 面经每日一题：介绍一下Java的内存模型
+

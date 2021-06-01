@@ -30,7 +30,7 @@ Datawhale每日一题打卡 week03
 - `1 <= dailyCapi <= 10^9`
 
 <div  align="center">  
-<img src="https://gitee.com/nekomoon404/blog-img/raw/master/img/QQ图片20210601161858.png" width=60% />
+<img src="https://gitee.com/nekomoon404/blog-img/raw/master/img/QQ图片20210601161858.png" width=50% />
 </div>
 
 
@@ -41,7 +41,11 @@ Datawhale每日一题打卡 week03
 因为要统计第idx之前的所有糖果，则可以先初始化一个前缀和数组 `prefix` ， `prefix[i]` 表示第 `i` 个元素之前的元素之和。但要**注意本题的数据范围**，糖果数组 `candiesCount` 的长度和元素大小都是 $10^5$，所以元素之和会爆 `int` ，可以用 `unsigned long long` 来存前缀和。
 
 - 最多天数：每天只吃一颗糖，最后一天刚好吃到第idx种糖的最后一颗，即需要 $prefix[i + 1]$ 天；
-- 最少天数：每天都吃满 $cnt$颗糖，需要 $\lfloor \frac{prefix[i]}{cnt} \rfloor+1$ ，注意要向下取整；且这里用除法虽然效率没乘法高但不容易溢出，因为 $cnt$ 和 $day$ 的数据范围都是 $10^9$。
+- 最少天数：每天都吃满 $cnt$颗糖，需要 $\lfloor \frac{prefix[i]}{cnt} \rfloor+1$ ；
+  
+  注意要向下取整，若第idx种糖果之前的糖果总和能被cnt整除，则刚好在第 $\frac{prefix[i]}{cnt} +1$ 天可以吃到第idx种糖果；若不能整除，在第$\lfloor \frac{prefix[i]}{cnt} \rfloor+1$天仍可以吃到第idx种糖果（吃完余数，再吃第idx种，保证当天总数不超过cnt）；
+  
+  且这里用除法虽然效率没乘法高（$(day-1) * cnt \ge prefix[i]$)，但不容易溢出，因为 $cnt$ 和 $day$ 的数据范围都是 $10^9$。
 
 ```cpp
 typedef unsigned long long  ULL;

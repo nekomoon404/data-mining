@@ -2,7 +2,7 @@ Datawhale每日一题打卡 week03
 
 实现语言：C++
 
-## 06-01
+## 06-01 day17
 ### LC1744. 你能在你最喜欢的那天吃到你最喜欢的糖果吗？
 
 [力扣](https://leetcode-cn.com/problems/can-you-eat-your-favorite-candy-on-your-favorite-day/)
@@ -83,3 +83,66 @@ public:
 空间复杂度： $O(n)$ 
 
 ### 面经每日一题：MySQL的ACID，分别解释一下？
+
+## 06-02 day18
+### LC55. 跳跃游戏
+
+[力扣](https://leetcode-cn.com/problems/jump-game/)
+
+给定一个非负整数数组 `nums` ，你最初位于数组的 **第一个下标** 。数组中的每个元素代表你在该位置可以跳跃的最大长度。判断你是否能够到达最后一个下标。
+
+**提示：**
+
+- `1 <= nums.length <= 3 * 104`
+- `0 <= nums[i] <= 105`
+
+<div  align="center">  
+<img src="https://gitee.com/nekomoon404/blog-img/raw/master/img/QQ图片20210602224244.png" width=50% />
+</div>
+
+【思路1——贪心】
+
+对于位置 `i` ，在 `i` 处起跳能达到的最远位置就是 `i + nums[i]`；我们可以遍历数组，维护一个最远能到达的位置 `reach` ，枚举到当前元素 `i` 时，如果有 `reach < i` 则说明无论我们怎么跳都没办法跳到 `i` 处，也没无法跳到最后一个元素了；否则就更新一下 `reach = max(reach, i + nums[i]` 。这个过程可以看作是贪心的，在当前子问题中我们只关心当下的最优解 。
+
+```cpp
+bool canJump(vector<int>& nums) {
+    int reach = 0, n = nums.size();
+    for(int i = 0; i < n; i ++) {
+        if(reach < i)
+            return false;
+        reach = max(reach, i + nums[i]);
+    }
+    return true;
+}
+```
+
+上面的代码还可以做一下小优化：如果当前的 reach 跳的很远已经超过了 n - 1就可以提前返回了。
+
+```cpp
+bool canJump(vector<int>& nums) {
+    int reach = 0, n = nums.size();
+    for(int i = 0; i <= reach && reach < n - 1; i ++) 
+        reach = max(reach, i + nums[i]);
+
+    return reach >= n - 1;
+}
+```
+
+时间复杂度： $O(n)$；时间复杂度： $O(1)$；
+
+当然也可以倒着往回推，找到要到达终点需要的最早出发的位置，如果 `0` 位置为可以到达的状态，即返回 true。
+
+```cpp
+bool canJump(vector<int>& nums) {
+    int last = n - 1, n = nums.size();
+    for(int i = n - 2; i >= 0; i --) 
+        if(i + nums[i] >= last)
+						last == i;
+
+    return last == 0;
+}
+```
+
+时间复杂度： $O(n)$；时间复杂度： $O(1)$；
+
+### 面经每日一题：HTTP1.0, 1.1，2.0之间的区别

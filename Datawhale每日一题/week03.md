@@ -137,7 +137,7 @@ bool canJump(vector<int>& nums) {
     int last = n - 1, n = nums.size();
     for(int i = n - 2; i >= 0; i --) 
         if(i + nums[i] >= last)
-						last == i;
+	    last == i;
 
     return last == 0;
 }
@@ -146,3 +146,60 @@ bool canJump(vector<int>& nums) {
 时间复杂度： $O(n)$；时间复杂度： $O(1)$；
 
 ### 面经每日一题：HTTP1.0, 1.1，2.0之间的区别
+
+## 06-03 day 19
+
+### LC56. 合并区间
+
+[](https://leetcode-cn.com/problems/merge-intervals/)
+
+以数组 `intervals` 表示若干个区间的集合，其中单个区间为 `intervals[i] = [starti, endi]` 。请你合并所有重叠的区间，并返回一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间。
+
+提示：
+
+- `1 <= intervals.length <= 10^4`
+- `intervals[i].length == 2`
+- `0 <= start_i <= end_i <= 10^4`
+
+<div  align="center">  
+<img src="https://gitee.com/nekomoon404/blog-img/raw/master/img/QQ图片20210603191225.png" width=50% />
+</div>
+
+
+【思路——贪心】
+
+可以将所有区间按区间左端点从小到大排序，然后维护最大区间的左端点 `l` 和右端点 `r` ，遍历所有区间：
+
+- 若当前区间的左端点小于等于 `r` ，则一定有重叠，此时更新 `r` 为 `r` 和 当前区间右端点的最大值；
+- 若当前区间的左端点大于 `r` ，则维护的最大区间就到此为止了，与当前区间没有重叠，那就把 `{l, r}` 添加到答案数组中，然后更新 `l` 和 `r` 为当期区间的左右端点；遍历完后不要忘了把最后一个 `{l, r}` 加到答案中。
+
+```cpp
+vector<vector<int>> merge(vector<vector<int>>& intervals) {
+    //sort(intervals.begin(), intervals.end(), [](auto const& a, auto const& b){
+        //return a[0] < b[0];
+    //});
+    sort(intervals.begin(), intervals.end());
+
+    vector<vector<int>> ans;
+    int l = intervals[0][0], r = intervals[0][1];
+
+    for(auto pair : intervals) {
+        if(pair[0] <= r && pair[1] > r)
+            r = pair[1];
+        else if(pair[0] > r) {
+            ans.push_back({l, r});
+            l = pair[0], r = pair[1];
+        }
+    }
+
+    ans.push_back({l, r});
+
+    return ans;
+}
+```
+
+时间复杂度：$O(n \log n)$，排序是 $O(n \log n)$，遍历是 $O(n)$，所以总体是 $O(n \log n)$；
+
+空间复杂度：$O(1)$
+
+### 面经每日一题：什么是僵尸进程？
